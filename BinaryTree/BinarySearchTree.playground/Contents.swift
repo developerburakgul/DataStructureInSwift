@@ -24,49 +24,49 @@ class Node {
 
 class BST {
     var root : Node?
-    
+    // ok
     func insert(key : Int) {
         root = insertItem(root,key)
     }
-    
+    // ok
     func delete(_ key : Int){
         guard let _ = root else {return}
         root = delete(&root, key)
     
     }
-    
+    // ok
     func delete(_ node : inout Node?,_ key : Int) -> Node? {
-        guard let nodee = node else {return nil}
+        guard let nd = node else {return nil}
         
         
-        if key < nodee.key {
-            nodee.leftNode = delete(&nodee.leftNode, key)
-        }else if key > nodee.key {
-            nodee.rightNode = delete(&nodee.rightNode, key)
+        if key < nd.key {
+            nd.leftNode = delete(&nd.leftNode, key)
+        }else if key > nd.key {
+            nd.rightNode = delete(&nd.rightNode, key)
         }else {
             // there are 3 state
             // state 1 no child
-            if nodee.leftNode == nil && nodee.rightNode == nil {
-                node = nil
-            }else if nodee.leftNode != nil && nodee.rightNode == nil { // state 2 ; 1 child
-                node =  nodee.leftNode
-            }else if nodee.rightNode != nil && nodee.leftNode == nil { // state 2 ; 1 child
-                node =  nodee.rightNode
+            if nd.leftNode == nil && nd.rightNode == nil {
+                node = nil // you can set nil nd because type of nd Node, (not Node?)
+            }else if nd.leftNode != nil && nd.rightNode == nil { // state 2 ; 1 child
+                node =  nd.leftNode
+            }else if nd.rightNode != nil && nd.leftNode == nil { // state 2 ; 1 child
+                node =  nd.rightNode
             }else { // state 3 ; 2 child
-                var minRight = findMin(nodee.rightNode!)
-                nodee.key = minRight.key
+                var minRight = findMin(nd.rightNode!)
+                nd.key = minRight.key
                 node?.rightNode = delete(&node!.rightNode, key)
             }
             
         }
 
         
-        return nodee
+        return nd
         
     }
-    
-    func insertItem(_ root : Node?,_ key : Int) -> Node? {
-        guard let rootNode = root else { return Node(key) }
+    // ok
+    func insertItem(_ node : Node?,_ key : Int) -> Node? {
+        guard let rootNode = node else { return Node(key) }
         if key < rootNode.key {
             rootNode.leftNode = insertItem(rootNode.leftNode, key)
             
@@ -76,30 +76,69 @@ class BST {
         return rootNode
                 
     }
+     // ok
     func find(key : Int) -> Int? {
-        guard let root = root else {return nil}
-        guard let node = find(root,key) else {return nil }
+        guard let rootNode = root else {return nil}
+        guard let node = find(rootNode,key) else {return nil }
         
         return node.key
         
     }
-    
+    // ok
     private func find(_ node : Node? , _ key : Int) -> Node? {
-        guard let node = node else {return nil}
-        if node.key == key {return node}
-        if key < node.key {
-            return find(node.leftNode, key)
+        guard let nd = node else {return nil}
+        if nd.key == key {return node}
+        if key < nd.key {
+            return find(nd.leftNode, key)
         }else {
-            return find(node.rightNode, key)
+            return find(nd.rightNode, key)
         }
         return nil
     }
+    // ok
     func findMin() -> Int {
         guard let root = root else { return 0 }
         return findMin(root).key;
     }
-
+    // ok
     private func findMin(_ node: Node) -> Node {
         return node.min;
     }
+    
+    
+    func inOrderTraversal(node : Node?) {
+        guard let nd = node else {return}
+        inOrderTraversal(node: nd.leftNode)
+        print(node?.key)
+        inOrderTraversal(node: nd.rightNode)
+    }
+    func preOrderTraversal(node : Node?)  {
+        guard let nd = node else {return}
+        print(nd.key)
+        preOrderTraversal(node: nd.leftNode)
+        preOrderTraversal(node: nd.rightNode)
+    }
+    
+    func postOrderTraversal(node : Node?)  {
+        guard let nd = node else {return}
+        postOrderTraversal(node: nd.rightNode)
+        postOrderTraversal(node: nd.leftNode)
+        print(nd.key)
+    }
+    
+    
+    
+
 }
+var bst = BST()
+bst.insert(key: 5)
+bst.insert(key: 3)
+bst.insert(key: 2)
+bst.insert(key: 4)
+bst.insert(key: 7)
+bst.insert(key: 6)
+bst.insert(key: 8)
+
+bst.postOrderTraversal(node: bst.root)
+
+
