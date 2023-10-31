@@ -32,13 +32,36 @@ class BinaryTree {
     var root: Node?
     
     func lca(_ node: Node?, _ n1: Int, _ n2: Int) -> Node? {
-        // Magic happens here...
-        return nil
+        guard let nd = node else {return nil}
+        if nd.data < n1 && nd.data < n2 {
+            return lca(nd.right, n1, n2)
+        }else if nd.data > n1 && nd.data > n2 {
+            return lca(nd.left, n1, n2)
+        }else {
+            return node
+        }
     }
 }
 
 let tree = BinaryTree()
 // Step 1: Build the BST
+var node20 = Node(20)
+var node8 = Node(8)
+var node22 = Node(22)
+
+node20.left = node8
+node20.right = node22
+
+var node4 = Node(4)
+var node12 = Node(12)
+node8.left = node4
+node8.right = node12
+
+var node10 = Node(10)
+var node14 = Node(14)
+node12.left = node10
+node12.right = node14
+tree.root = node20
 
 // Step 2: Make it pass these test cases
 var n1 = 10, n2 = 14
